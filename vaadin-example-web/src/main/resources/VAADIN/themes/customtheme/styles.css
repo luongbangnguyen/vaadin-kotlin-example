@@ -14782,3 +14782,18 @@ div.v-layout.v-horizontal.v-widget {
 	border: 1px solid #ebccd1;
 	border-radius: 4px;
 }
+
+.customtheme .v-button-link:after {
+	content: none;
+}
+
+.customtheme .v-grid-row-selected > .v-grid-cell {
+	background-color: transparent;
+	color: inherit;
+	text-shadow: none;
+	border-color: #d4d4d4;
+}
+
+.customtheme .v-grid-row-selected > td {
+	background: none;
+}

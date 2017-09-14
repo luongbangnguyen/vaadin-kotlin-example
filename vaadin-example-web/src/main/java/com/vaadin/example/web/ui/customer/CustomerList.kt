@@ -2,6 +2,7 @@ package com.vaadin.example.web.ui.customer
 
 import com.vaadin.data.provider.GridSortOrder
 import com.vaadin.example.domain.criteria.CustomerCriteria
+import com.vaadin.example.domain.entity.Customer
 import com.vaadin.example.domain.entity.Customer_
 import com.vaadin.example.domain.service.CustomerService
 import com.vaadin.example.web.constants.WebConstants
@@ -12,6 +13,9 @@ import com.vaadin.shared.ui.ValueChangeMode
 import com.vaadin.spring.annotation.SpringComponent
 import com.vaadin.spring.annotation.UIScope
 import com.vaadin.ui.*
+import com.vaadin.ui.renderers.ButtonRenderer
+import com.vaadin.ui.renderers.ClickableRenderer
+import com.vaadin.ui.renderers.HtmlRenderer
 import com.vaadin.ui.renderers.LocalDateRenderer
 import com.vaadin.ui.themes.ValoTheme
 import org.springframework.beans.factory.annotation.Autowired
@@ -47,21 +51,21 @@ constructor(private val service: CustomerService,
     private final val BIRTHDAY_LABEL = "Birthday"
     private final val STATUS_LABEL = "Status"
     private final val DESCRIPTION_LABEL = "Description"
+    private final val ACTION_LABEl = "Action"
 
     init {
         grid.setSizeFull()
-        grid.addColumn(com.vaadin.example.domain.entity.Customer::getFirstName).caption = FIRST_NAME_LABEL
-        grid.addColumn(com.vaadin.example.domain.entity.Customer::getLastName).caption = LAST_NAME_LABEL
-        grid.addColumn(com.vaadin.example.domain.entity.Customer::getEmail).caption = EMAIL_LABEL
-        grid.addColumn(com.vaadin.example.domain.entity.Customer::getBirthDate, LocalDateRenderer("dd-MM-yyyy")).caption = BIRTHDAY_LABEL
-        grid.addColumn(com.vaadin.example.domain.entity.Customer::getStatus).caption = STATUS_LABEL
-        grid.addColumn(com.vaadin.example.domain.entity.Customer::getDescription).apply { isSortable = false }.caption = DESCRIPTION_LABEL
+        grid.addColumn(Customer::getFirstName).caption = FIRST_NAME_LABEL
+        grid.addColumn(Customer::getLastName).caption = LAST_NAME_LABEL
+        grid.addColumn(Customer::getEmail).caption = EMAIL_LABEL
+        grid.addColumn(Customer::getBirthDate, LocalDateRenderer("dd-MM-yyyy")).caption = BIRTHDAY_LABEL
+        grid.addColumn(Customer::getStatus).caption = STATUS_LABEL
+        grid.addColumn(Customer::getDescription).apply { isSortable = false }.caption = DESCRIPTION_LABEL
 
-        grid.asSingleSelect().addValueChangeListener {
-            if(it.value != null) {
-                selectCustomerEvent(it.value)
-            }
-        }
+        grid.addComponentColumn{cus -> HorizontalLayout(Button(VaadinIcons.EDIT).apply {
+            addStyleNames(ValoTheme.BUTTON_LINK)
+            addClickListener{selectCustomerEvent(cus)}
+        })}.caption = ACTION_LABEl
 
         grid.addSortListener {
             renderListByPageIndex(paging.getPagingInfo().pageIndex)
@@ -120,7 +124,7 @@ constructor(private val service: CustomerService,
         addUserEvent = event
     }
 
-    fun setSelectCustomerEvent(event: (customer: com.vaadin.example.domain.entity.Customer) -> Unit) {
+    fun setSelectCustomerEvent(event: (customer: Customer) -> Unit) {
         selectCustomerEvent = event
     }
 
