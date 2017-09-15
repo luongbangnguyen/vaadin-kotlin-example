@@ -65,7 +65,7 @@ constructor(private val service: CustomerService,
         grid.addComponentColumn{cus -> HorizontalLayout(Button(VaadinIcons.EDIT).apply {
             addStyleNames(ValoTheme.BUTTON_LINK)
             addClickListener{selectCustomerEvent(cus)}
-        })}.caption = ACTION_LABEl
+        })}.apply { isSortable = false } .caption = ACTION_LABEl
 
         grid.addSortListener {
             renderListByPageIndex(paging.getPagingInfo().pageIndex)

@@ -151,5 +151,4 @@
 		<module>vaadin-example-domain</module>
         <module>vaadin-example-web</module>
     </modules>
-	
 </project>

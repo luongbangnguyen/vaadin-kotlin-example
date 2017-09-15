@@ -11,7 +11,7 @@
     cursor: not-allowed !important;
   }
 
-  .customer-form td  {
+  .customer-form td {
     padding-top: 30px !important;
   }
 
@@ -21,5 +21,20 @@
     padding: 15px;
     border: 1px solid #ebccd1;
     border-radius: 4px;
+  }
+
+  .v-button-link:after {
+    content: none;
+  }
+
+  .v-grid-row-selected > .v-grid-cell {
+    background-color: transparent;
+    background-image: none;
+    color: inherit;
+    text-shadow: none;
+    border-color: #d4d4d4;
+  }
+  .v-grid-row-selected > td {
+    background: none;
   }
 }

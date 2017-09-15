@@ -86,8 +86,6 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<skipIdentical>false</skipIdentical>
-							<failIfNotFound>false</failIfNotFound>
 							<overwrite>true</overwrite>
 							<outputDirectory>${project.parent.basedir}/docker/webapp</outputDirectory>
 							<resources>

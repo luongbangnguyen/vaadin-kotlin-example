@@ -14789,6 +14789,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .customtheme .v-grid-row-selected > .v-grid-cell {
 	background-color: transparent;
+	background-image: none;
 	color: inherit;
 	text-shadow: none;
 	border-color: #d4d4d4;
