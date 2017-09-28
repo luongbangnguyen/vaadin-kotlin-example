@@ -1,5 +1,5 @@
 #!/bin/sh
-while (! nc -z elasticsearch 9300) && (! nc -z mysql 3306); do
+while (! nc -z elasticsearch 9300) && (! nc -z mysql 3306) && (! nc -z configserver 22); do
     echo "Waiting for upcoming Elasticsearch and Mysql"
     sleep 2
 done
