@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM anapsix/alpine-java:8_jdk
 MAINTAINER luongbangvh@gmail.com
 
 # Define some directories
@@ -6,8 +6,7 @@ ENV DIR_ROOT /home/config
 ENV DIR_CONFIG /opt/config-server
 
 # Install necessary software
-RUN apt-get update && apt-get install -y git dos2unix netcat-openbsd
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get install -y oracle-java8-installer && rm -rf /var/lib/apt/lists/* && rm -rf /var/cache/oracle-jdk8-installer
+RUN apk --no-cache add netcat-openbsd
 
 # add necessary assets to server
 ADD application.properties ${DIR_ROOT}/application.properties

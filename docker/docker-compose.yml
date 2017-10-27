@@ -1,25 +1,31 @@
-version: '2'
+version: '3'
 services:
   gitserver:
     container_name: gitserver
     build: ./gitserver
+    sysctls:
+      net.unix.max_dgram_qlen: 512
+    security_opt:
+      - seccomp:unconfined
+    tmpfs:
+      - /run
+      - /run/lock
     image: gitserver:latest
     expose:
       - 22
     ports:
       - 22:22
-      - 2222:2222
-  configserver:
-    container_name: configserver
-    build:
-      context: ./configserver
-    image: configserver:latest
-    expose:
-      - 8888
-    ports:
-      - 8888:8888
-    links:
-      - gitserver:gitserver
+#  configserver:
+#    container_name: configserver
+#    build:
+#      context: ./configserver
+#    image: configserver:latest
+#    expose:
+#      - 8888
+#    ports:
+#      - 8888:8888
+#    links:
+#      - gitserver:gitserver
 #  elasticsearch:
 #    container_name: elasticsearch
 #    build:
