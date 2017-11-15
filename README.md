@@ -1,6 +1,6 @@
 # vaadin-kootlin-example
 ```
-mvn package
+mvn install
 cd docker
 docker-compose up --build
 ```
