@@ -3,72 +3,67 @@ services:
   gitserver:
     container_name: gitserver
     build: ./gitserver
-    sysctls:
-      net.unix.max_dgram_qlen: 512
-    security_opt:
-      - seccomp:unconfined
-    tmpfs:
-      - /run
-      - /run/lock
     image: gitserver:latest
     expose:
-      - 22
-    ports:
       - 22:22
-#  configserver:
-#    container_name: configserver
-#    build:
-#      context: ./configserver
-#    image: configserver:latest
-#    expose:
-#      - 8888
-#    ports:
-#      - 8888:8888
-#    links:
-#      - gitserver:gitserver
-#  elasticsearch:
-#    container_name: elasticsearch
-#    build:
-#      context: ./elasticsearch
-#    image: elastic-server:latest
-#    environment:
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#      mem_limit: 1g
-#    expose:
-#      - 9200
-#      - 9300
-#    ports:
-#      - 9300:9300
-#  mysql:
-#      container_name: mysql
-#      build:
-#        context: ./mysql
-#      image: mysql:latest
-#      environment:
-#        MYSQL_DATABASE: vaadin_example
-#      expose:
-#        - 3306
-#      ports:
-#        - 3306:3306
-#  webapp:
-#          container_name: webapp
-#          build:
-#            context: ./webapp
-#          image: vaadin-example-web:latest
-#          environment:
-#            SPRING_DATA_ELASTICSEARCH_CLUSTER-NODES: elasticsearch:9300
-#            SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vaadin_example
-#            SPRING_CLOUD_CONFIG_URI: http://configserver:8888
-#          expose:
-#            - 8080
-#          ports:
-#            - 8080:8080
-#          links:
-#            - elasticsearch:elasticsearch
-#            - mysql:mysql
-#            - configserver:configserver
+      - 2222:22
+    ports:
+      - "22:22"
+      - "2222:22"
+  configserver:
+    container_name: configserver
+    build:
+      context: ./configserver
+    image: configserver:latest
+    environment:
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: git@gitserver:/srv/project.git
+    expose:
+      - 8888
+    ports:
+      - "8888:8888"
+    links:
+      - gitserver:gitserver
+  elasticsearch:
+    container_name: elasticsearch
+    build:
+      context: ./elasticsearch
+    image: elastic-server:latest
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      mem_limit: 1g
+    expose:
+      - 9200
+      - 9300
+    ports:
+      - "9300:9300"
+  mysql:
+      container_name: mysql
+      build:
+        context: ./mysql
+      image: mysql:latest
+      environment:
+        MYSQL_DATABASE: vaadin_example
+      expose:
+        - 3306
+      ports:
+        - "3306:3306"
+  webapp:
+          container_name: webapp
+          build:
+            context: ./webapp
+          image: vaadin-example-web:latest
+          environment:
+            SPRING_CLOUD_CONFIG_URI: http://configserver:8888
+          expose:
+            - 8080
+          ports:
+            - "8080:8080"
+          links:
+            - elasticsearch:elasticsearch
+            - mysql:mysql
+            - configserver:configserver
