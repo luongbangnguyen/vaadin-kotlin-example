@@ -42,28 +42,28 @@ services:
     ports:
       - "9300:9300"
   mysql:
-      container_name: mysql
-      build:
-        context: ./mysql
-      image: mysql:latest
-      environment:
-        MYSQL_DATABASE: vaadin_example
-      expose:
-        - 3306
-      ports:
-        - "3306:3306"
+    container_name: mysql
+    build:
+      context: ./mysql
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: vaadin_example
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
   webapp:
-          container_name: webapp
-          build:
-            context: ./webapp
-          image: vaadin-example-web:latest
-          environment:
-            SPRING_CLOUD_CONFIG_URI: http://configserver:8888
-          expose:
-            - 8080
-          ports:
-            - "8080:8080"
-          links:
-            - elasticsearch:elasticsearch
-            - mysql:mysql
-            - configserver:configserver
+    container_name: webapp
+    build:
+      context: ./webapp
+    image: vaadin-example-web:latest
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://configserver:8888
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+    links:
+      - elasticsearch:elasticsearch
+      - mysql:mysql
+      - configserver:configserver

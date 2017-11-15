@@ -4,7 +4,7 @@ while (! nc -z gitserver 22); do
     echo "Waiting for git is stared"
     sleep 2
 done
-if [!- f application.properties]; then
+if [! -f application.properties]; then
     echo "application.properties not found"
 else
   ssh-keyscan -H gitserver >> ~/.ssh/known_hosts
