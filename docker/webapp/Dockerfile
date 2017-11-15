@@ -3,20 +3,18 @@ MAINTAINER luongbangvh@gmail.com
 
 ENV WEB_FILE vaadin-example-web.jar
 ENV SCRIPT_FILE start-server.sh
-ENV LIB_DIR /opt/vaadin-example/lib
-ENV BIN_DIR /opt/vaadin-example/bin
+ENV LIB_DIR /opt/vaadin-example
 ENV SPRING_OUTPUT_ANSI_ENABLED ALWAYS
 
 RUN mkdir -p ${LIB_DIR}
-RUN mkdir -p ${BIN_DIR}
 
 RUN apk --no-cache add netcat-openbsd
 
 COPY ${WEB_FILE} ${LIB_DIR}/${WEB_FILE}
-COPY ${SCRIPT_FILE} ${BIN_DIR}/${SCRIPT_FILE}
-RUN dos2unix ${BIN_DIR}/${SCRIPT_FILE}
+COPY ${SCRIPT_FILE} ${LIB_DIR}/${SCRIPT_FILE}
+RUN dos2unix ${LIB_DIR}/${SCRIPT_FILE}
 
-WORKDIR ${BIN_DIR}
+WORKDIR ${LIB_DIR}
 RUN chmod 700 ${SCRIPT_FILE}
 ENTRYPOINT ["./start-server.sh"]
 

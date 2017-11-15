@@ -13,7 +13,7 @@
     <artifactId>vaadin-example-env</artifactId>
 
     <properties>
-        <spring-cloud.version>Finchley.M2</spring-cloud.version>
+        <spring-cloud.version>Finchley.M3</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
