@@ -9,4 +9,6 @@ interface CustomerService {
     fun findAll(customerCriteria: CustomerCriteria, pageable: Pageable) : Page<Customer>
     fun save(customer: Customer): Customer
     fun delete(customer: Customer)
+    fun deleteById(id: Long)
+    fun findById(id: Long): Customer
 }

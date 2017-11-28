@@ -3,6 +3,8 @@ package com.vaadin.example.web.ui.customer
 import com.vaadin.data.Binder
 import com.vaadin.data.validator.EmailValidator
 import com.vaadin.data.validator.StringLengthValidator
+import com.vaadin.example.domain.entity.Customer
+import com.vaadin.example.domain.enums.CustomerStatus
 import com.vaadin.example.domain.exeption.BusinessException
 import com.vaadin.example.domain.service.CustomerService
 import com.vaadin.example.web.ui.util.ErrorMessage
@@ -17,21 +19,41 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @SpringComponent
 @UIScope
-class CustomerForm @Autowired constructor(private val customerService: CustomerService, private val errorMessage: ErrorMessage) : VerticalLayout() {
+class CustomerForm @Autowired constructor(private val customerService: CustomerService,
+                                          val errorMessage: ErrorMessage)  : VerticalLayout() {
 
     private final val form = FormLayout().apply { setSizeUndefined() }
     private final val firstName = TextField("First Name").apply {setWidth(400f, Sizeable.Unit.PIXELS)}
     private final val lastName = TextField("Last Name").apply { setWidth(400f, Sizeable.Unit.PIXELS) }
     private final val email = TextField("Email").apply { setWidth(400f, Sizeable.Unit.PIXELS) }
-    private final val status = NativeSelect<com.vaadin.example.domain.enums.CustomerStatus>("Status")
+    private final val status = NativeSelect<CustomerStatus>("Status")
     private final val birthDate = DateField("Birthday").apply { setWidth(400f, Sizeable.Unit.PIXELS) }
     private final val description = TextArea("Description").apply { setWidth(400f, Sizeable.Unit.PIXELS) }
     private final val save = Button("Save")
     private final val delete = Button("Delete")
-    private final val binder = Binder<com.vaadin.example.domain.entity.Customer>(com.vaadin.example.domain.entity.Customer::class.java)
+    private final val binder = Binder<Customer>(Customer::class.java)
 
-    private var customer: com.vaadin.example.domain.entity.Customer? = null
+    private var customer: Customer? = null
     private lateinit var afterSaveCustomerEvent: () -> Unit
+
+    init {
+        this.isSpacing = false
+        val buttons = HorizontalLayout(save, delete)
+
+        birthDate.dateFormat = "dd-MM-yyyy"
+        status.setItems(CustomerStatus.values().toList())
+
+        save.styleName = ValoTheme.BUTTON_PRIMARY
+        save.addClickListener({ this.save() })
+
+        delete.addClickListener { this.delete() }
+
+        form.addComponents(firstName, lastName, email, status, birthDate, description, buttons)
+        form.styleName = "customer-form"
+
+        this.addComponents(errorMessage,form)
+        this.setValidateBinder()
+    }
 
     private fun delete() {
         customerService.delete(customer!!)
@@ -51,12 +73,12 @@ class CustomerForm @Autowired constructor(private val customerService: CustomerS
 
     }
 
-    private infix fun com.vaadin.example.domain.entity.Customer.copy(source: com.vaadin.example.domain.entity.Customer) {
+    private infix fun Customer.copy(source: Customer) {
         BeanUtils.copyProperties(source, this)
     }
 
-    fun setCustomer(value: com.vaadin.example.domain.entity.Customer) {
-        val clone = com.vaadin.example.domain.entity.Customer()
+    fun setCustomer(value: Customer) {
+        val clone = Customer()
         clone copy value
 
         this.customer = clone
@@ -71,46 +93,27 @@ class CustomerForm @Autowired constructor(private val customerService: CustomerS
         this.afterSaveCustomerEvent = event
     }
 
-    init {
-        this.isSpacing = false
-        val buttons = HorizontalLayout(save, delete)
-
-        birthDate.dateFormat = "dd-MM-yyyy"
-        status.setItems(com.vaadin.example.domain.enums.CustomerStatus.values().toList())
-
-        save.styleName = ValoTheme.BUTTON_PRIMARY
-        save.addClickListener({ this.save() })
-
-        delete.addClickListener { this.delete() }
-
-        form.addComponents(firstName, lastName, email, status, birthDate, description, buttons)
-        form.styleName = "customer-form"
-
-        this.addComponents(errorMessage,form)
-        this.setValidateBinder()
-    }
-
     fun setValidateBinder() : Unit = with(binder) {
         forField(firstName)
-                .asRequired("Fist name is require")
+                .asRequired("Fist name is required")
                 .withValidator(StringLengthValidator("Fist name must be between 2 and 20 character", 2, 20))
-                .bind(com.vaadin.example.domain.entity.Customer::getFirstName, com.vaadin.example.domain.entity.Customer::setFirstName)
+                .bind(Customer::getFirstName, Customer::setFirstName)
 
         forField(lastName)
-                .asRequired("Last name is require")
+                .asRequired("Last name is required")
                 .withValidator(StringLengthValidator("Last name must be between 2 and 50 character", 2, 20))
-                .bind(com.vaadin.example.domain.entity.Customer::getLastName, com.vaadin.example.domain.entity.Customer::setLastName)
+                .bind(Customer::getLastName, Customer::setLastName)
 
-        forField(email).asRequired("Email is require")
+        forField(email).asRequired("Email is required")
                 .withValidator(EmailValidator("Email invalid"))
-                .bind(com.vaadin.example.domain.entity.Customer::getEmail, com.vaadin.example.domain.entity.Customer::setEmail)
+                .bind(Customer::getEmail, Customer::setEmail)
 
-        forField(status).asRequired("Status is require")
-                .bind(com.vaadin.example.domain.entity.Customer::getStatus, com.vaadin.example.domain.entity.Customer::setStatus)
+        forField(status).asRequired("Status is required")
+                .bind(Customer::getStatus, Customer::setStatus)
 
-        forField(birthDate).asRequired("Birthday is require")
-                .bind(com.vaadin.example.domain.entity.Customer::getBirthDate, com.vaadin.example.domain.entity.Customer::setBirthDate)
+        forField(birthDate).asRequired("Birthday is required")
+                .bind(Customer::getBirthDate, Customer::setBirthDate)
 
-        forField(description).bind(com.vaadin.example.domain.entity.Customer::getDescription, com.vaadin.example.domain.entity.Customer::setDescription)
+        forField(description).bind(Customer::getDescription, Customer::setDescription)
     }
 }

@@ -1,5 +1,6 @@
 package com.vaadin.example.domain.criteria
 
+import com.vaadin.example.domain.enums.CustomerStatus
 import java.time.LocalDate
 
 data class CustomerCriteria
@@ -7,5 +8,5 @@ data class CustomerCriteria
         val filterString: String = "",
         var birthdayBegin: LocalDate?,
         var birthdayEnd: LocalDate?,
-        val status: com.vaadin.example.domain.enums.CustomerStatus?
+        val status: CustomerStatus?
 )

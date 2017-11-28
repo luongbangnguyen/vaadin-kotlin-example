@@ -36,19 +36,12 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
-	</dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${vaadin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+		<dependency>
+			<groupId>org.vaadin.ui</groupId>
+			<artifactId>numberfield</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<finalName>vaadin-example-web</finalName>
@@ -92,7 +85,7 @@
 								<resource>
 									<directory>${project.build.directory}</directory>
 									<includes>
-										<include>${build.finalName}.${packaging}</include>
+										<include>${project.build.finalName}.${project.packaging}</include>
 									</includes>
 								</resource>
 							</resources>

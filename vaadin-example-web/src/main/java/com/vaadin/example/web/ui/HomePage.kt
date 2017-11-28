@@ -2,59 +2,45 @@ package com.vaadin.example.web.ui
 
 import com.vaadin.annotations.Theme
 import com.vaadin.annotations.Title
-import com.vaadin.example.web.ui.customer.CustomerForm
-import com.vaadin.example.web.ui.customer.CustomerList
+import com.vaadin.example.web.ui.client.ClientList
+import com.vaadin.navigator.Navigator
 import com.vaadin.server.VaadinRequest
-import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.spring.annotation.SpringUI
-import com.vaadin.ui.HorizontalLayout
+import com.vaadin.spring.navigator.SpringViewProvider
+import com.vaadin.ui.Button
+import com.vaadin.ui.CssLayout
 import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.Window
+import com.vaadin.ui.themes.ValoTheme
 import org.springframework.beans.factory.annotation.Autowired
+
 
 @SpringUI
 @Title("Vaadin And Kotlin Example")
-@Theme("customtheme")
-class HomePage : UI() {
+@Theme("customtheme" )
+class HomePage @Autowired constructor(private val viewProvider: SpringViewProvider) : UI() {
 
-    @Autowired
-    private lateinit var customerList: CustomerList
+    override fun init(request: VaadinRequest?) {
+        val root = VerticalLayout()
+        root.setSizeFull()
+        root.setMargin(true)
+        root.isSpacing = true
+        content = root
 
-    @Autowired
-    private lateinit var form: CustomerForm
+        val navigationBar = CssLayout()
+        navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP)
+        navigationBar.addComponent(Button("Customer", Button.ClickListener { ui.navigator.navigateTo("") }))
+        navigationBar.addComponent(Button("Client", Button.ClickListener { ui.navigator.navigateTo(ClientList.NAME) }))
+        root.addComponent(navigationBar)
 
-    override fun init(request: VaadinRequest) {
-        val verticalLayout = VerticalLayout()
-
-        val window = Window("Add customer")
-        window.center()
-        window.isModal = true
-        window.content = form.apply { margin = MarginInfo(true) }
-
-        form.setAfterSaveCustomerEvent {
-            customerList.updateList()
-            window.close()
+        val viewContainer = VerticalLayout().apply {
+            setMargin(false)
         }
+        viewContainer.setSizeFull()
+        root.addComponent(viewContainer)
+        root.setExpandRatio(viewContainer, 1.0f)
 
-        customerList.setAddCustomerEvent {
-            form.setCustomer(com.vaadin.example.domain.entity.Customer())
-            window.caption = "Add customer"
-            addWindow(window)
-        }
-        customerList.setSelectCustomerEvent {
-            form.setCustomer(it)
-            window.caption = "Edit customer"
-            addWindow(window)
-        }
-
-        val main = HorizontalLayout(customerList)
-        main.setSizeFull()
-        main.setExpandRatio(customerList, 1f)
-        customerList.updateList()
-
-        verticalLayout.addComponent(main)
-        content = verticalLayout
+        val navigator = Navigator(this, viewContainer)
+        navigator.addProvider(viewProvider)
     }
-
 }

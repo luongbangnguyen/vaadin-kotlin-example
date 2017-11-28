@@ -18,9 +18,15 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<vaadin.version>8.1.0</vaadin.version>
-		<kotlin.version>1.1.51</kotlin.version>
+		<kotlin.version>1.2.10</kotlin.version>
 		<elasticsearch.version>5.5.1</elasticsearch.version>
 		<jackson.version>2.9.0</jackson.version>
+		<spring-cloud.version>Finchley.M4</spring-cloud.version>
+		<hibernate-validator.version>6.0.5.Final</hibernate-validator.version>
+		<dozer.version>5.5.1</dozer.version>
+		<springfox.version>2.7.0</springfox.version>
+		<commons-collections4>4.0</commons-collections4>
+		<vaadin.number.field>0.2.0</vaadin.number.field>
 	</properties>
 
 	<repositories>
@@ -39,6 +45,10 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
 	</repositories>
 
@@ -71,6 +81,12 @@
 
 			<dependency>
 				<groupId>${project.groupId}</groupId>
+				<artifactId>vaadin-example-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>vaadin-example-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -85,6 +101,60 @@
 				<groupId>${project.groupId}</groupId>
 				<artifactId>config-server</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>${dozer.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer-spring</artifactId>
+				<version>${dozer.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>${vaadin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.vaadin.ui</groupId>
+				<artifactId>numberfield</artifactId>
+				<version>${vaadin.number.field}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -113,6 +183,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons-collections4}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -155,6 +232,7 @@
 		<module>vaadin-example-env</module>
 		<module>vaadin-example-domain</module>
         <module>vaadin-example-web</module>
+		<module>vaadin-example-api</module>
 		<module>config-server</module>
     </modules>
 </project>
