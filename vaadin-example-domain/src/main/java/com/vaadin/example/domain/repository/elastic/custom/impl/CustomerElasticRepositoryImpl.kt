@@ -13,8 +13,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder
 
-class CustomerElasticRepositoryImpl
-@Autowired constructor(private val elasticsearchTemplate: ElasticsearchTemplate) : CustomerElasticRepositoryCustom<Customer> {
+class CustomerElasticRepositoryImpl @Autowired constructor(private val elasticsearchTemplate: ElasticsearchTemplate) : CustomerElasticRepositoryCustom<Customer> {
 
     override fun findAllCustomer(customerCriteria: CustomerCriteria, pageable: Pageable): Page<Customer> {
         val builder = NativeSearchQueryBuilder()

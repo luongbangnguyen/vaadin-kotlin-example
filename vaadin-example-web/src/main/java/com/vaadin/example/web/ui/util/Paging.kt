@@ -145,18 +145,14 @@ class Paging : CssLayout(){
         }
     }
 
-    private fun isFirst(): Boolean {
-        return pagingInfo.pageIndex <= 0
-    }
+    private fun isFirst(): Boolean = pagingInfo.pageIndex <= 0
 
-    private fun isLast(): Boolean {
-        return pagingInfo.pageIndex >= pagingInfo.totalPage - 1
-    }
+    private fun isLast(): Boolean =  pagingInfo.pageIndex >= pagingInfo.totalPage - 1
 
     class PagingInfo {
         internal var totalPage: Int = 0
         internal var pageIndex:Int = 0
-        internal val maxDisplayCount = 5
+        private val maxDisplayCount = 5
 
         internal fun getBeginAndEnd() : Pair<Int, Int> {
             var begin:Int = maxOf(0, this.pageIndex - maxDisplayCount / 2)
