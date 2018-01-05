@@ -1,11 +1,10 @@
 package com.vaadin.example.domain.config
 
-import com.sun.deploy.util.SessionState
-import com.vaadin.example.domain.entity.*
+import com.vaadin.example.domain.entity.Clients
+import com.vaadin.example.domain.entity.Customer
 import com.vaadin.example.domain.repository.elastic.CustomerElasticRepository
 import com.vaadin.example.domain.repository.jpa.*
 import com.vaadin.example.domain.util.ClientUtils
-import com.vaadin.example.domain.util.Constants.CLIENT_RESOURCE
 import com.vaadin.example.domain.util.getFormatValue
 import org.apache.commons.collections4.CollectionUtils
 import org.springframework.boot.CommandLineRunner
@@ -20,7 +19,9 @@ import java.util.*
 class InitData {
 
     @Bean
-    fun initCustomerData(customerJpaRepository: CustomerJpaRepository, customerElasticRepository: CustomerElasticRepository): CommandLineRunner = CommandLineRunner {
+    fun initCustomerData(customerJpaRepository: CustomerJpaRepository,
+                         customerElasticRepository: CustomerElasticRepository): CommandLineRunner = CommandLineRunner {
+
         var isDataElasticNotExisted = true
         var isDataJpaNotExisted = true
 

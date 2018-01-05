@@ -52,18 +52,33 @@ services:
       - 3306
     ports:
       - "3306:3306"
-  webapp:
-    container_name: webapp
-    build:
-      context: ./webapp
-    image: vaadin-example-web:latest
-    environment:
-      SPRING_CLOUD_CONFIG_URI: http://configserver:8888
-    expose:
-      - 8080
-    ports:
-      - "8080:8080"
-    links:
-      - elasticsearch:elasticsearch
-      - mysql:mysql
-      - configserver:configserver
+#  webapp:
+#    container_name: webapp
+#    build:
+#      context: ./webapp
+#    image: vaadin-example-web:latest
+#    environment:
+#      SPRING_CLOUD_CONFIG_URI: http://configserver:8888
+#    expose:
+#      - 8080
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - elasticsearch:elasticsearch
+#      - mysql:mysql
+#      - configserver:configserver
+  apiapp:
+      container_name: apiapp
+      build:
+        context: ./apiapp
+      image: vaadin-example-api:latest
+      environment:
+        SPRING_CLOUD_CONFIG_URI: http://configserver:8888
+      expose:
+        - 8181
+      ports:
+        - "8181:8181"
+      links:
+        - elasticsearch:elasticsearch
+        - mysql:mysql
+        - configserver:configserver

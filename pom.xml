@@ -18,7 +18,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<vaadin.version>8.1.0</vaadin.version>
-		<kotlin.version>1.2.10</kotlin.version>
+		<kotlin.version>1.2.30</kotlin.version>
 		<elasticsearch.version>5.5.1</elasticsearch.version>
 		<jackson.version>2.9.0</jackson.version>
 		<spring-cloud.version>Finchley.M4</spring-cloud.version>
@@ -100,6 +100,12 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>config-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>vadin-example-batch</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -229,10 +235,11 @@
 		</plugins>
 	</build>
 	<modules>
+		<module>vadin-example-batch</module>
 		<module>vaadin-example-env</module>
 		<module>vaadin-example-domain</module>
         <module>vaadin-example-web</module>
 		<module>vaadin-example-api</module>
 		<module>config-server</module>
-    </modules>
+	</modules>
 </project>
