@@ -12,19 +12,21 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.batch.core.launch.support.RunIdIncrementer
+import org.springframework.batch.core.step.tasklet.TaskletStep
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
 
 @Configuration
 @EnableBatchProcessing
+@DependsOn("initialConfiguration")
 class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: JobBuilderFactory,
                                                 private val stepBuilderFactory: StepBuilderFactory,
                                                 private val clientReader: ClientReader,
                                                 private val clientWriter: ClientWriter,
                                                 private val customerReader: CustomerReader,
                                                 private val customerWriter: CustomerWriter) {
-
     @Bean
     fun initClientJob() : Job  = this.jobBuilderFactory
             .get("initClientJob")
@@ -35,7 +37,7 @@ class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: J
 
 
     @Bean
-    fun clientStep(): Step = this.stepBuilderFactory
+    fun clientStep(): TaskletStep = this.stepBuilderFactory
             .get("clientStep")
             .chunk<Clients, Clients>(1)
             .reader(this.clientReader)

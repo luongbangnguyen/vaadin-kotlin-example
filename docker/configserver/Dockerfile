@@ -9,7 +9,8 @@ ENV DIR_CONFIG /opt/config-server
 RUN apk --no-cache add -qU netcat-openbsd git openssh
 
 # add necessary assets to server
-ADD application.properties ${DIR_CONFIG}/application.properties
+ADD environment.properties ${DIR_CONFIG}/environment.properties
+
 ADD config-server.jar ${DIR_CONFIG}/config-server.jar
 ADD start-server.sh ${DIR_CONFIG}/start-server.sh
 RUN dos2unix ${DIR_CONFIG}/start-server.sh

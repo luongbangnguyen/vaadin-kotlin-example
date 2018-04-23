@@ -10,7 +10,7 @@ import com.vaadin.example.domain.service.ClientService
 import com.vaadin.example.domain.util.ClientUtils
 import com.vaadin.example.domain.util.Constants
 import org.apache.commons.collections4.CollectionUtils
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
@@ -208,6 +208,16 @@ class ClientServiceImpl : ClientService {
         return PageImpl<ClientDto>(clientDTOs, pageable, pageClients.totalElements)
     }
 
+
+    override fun findByClientId(id: String) : ClientDto {
+        val clients = this.clientRepository.findOne(QClients.clients.clientId.eq(id))
+        if (!clients.isPresent) {
+            throw BusinessException("ClientId: $id not found")
+        }
+        return clients.get().toClientDto()
+
+    }
+
     override fun delete(clientId: String) {
         this.deleteWebServerRedirectUri(clientId)
         this.deleteAuthorities(clientId)
@@ -253,6 +263,7 @@ class ClientServiceImpl : ClientService {
         clientDto.id = this.id
         clientDto.clientId = this.clientId
         clientDto.clientName = this.clientName
+        clientDto.clientSecret = this.clientSecret
         clientDto.accessTokenValidity = this.accessTokenValidity
         clientDto.refreshTokenValidity = this.refreshTokenValidity
         clientDto.accessTokenValidity = this.refreshTokenValidity

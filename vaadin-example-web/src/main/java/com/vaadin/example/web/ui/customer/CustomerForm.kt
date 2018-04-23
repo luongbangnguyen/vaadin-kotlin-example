@@ -6,7 +6,7 @@ import com.vaadin.data.validator.StringLengthValidator
 import com.vaadin.example.domain.entity.Customer
 import com.vaadin.example.domain.enums.CustomerStatus
 import com.vaadin.example.domain.exeption.BusinessException
-import com.vaadin.example.domain.service.CustomerService
+import com.vaadin.example.feignclient.customer.CustomerService
 import com.vaadin.example.web.ui.util.ErrorMessage
 import com.vaadin.server.Sizeable
 import com.vaadin.spring.annotation.SpringComponent

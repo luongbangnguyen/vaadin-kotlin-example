@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.provider.ClientDetailsService
 import org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService
@@ -24,7 +25,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter(){
     private lateinit var passwordEncoder: PasswordEncoder
 
     @Autowired
-    @Qualifier("oAuthClientDetailsService")
+    @Qualifier("clientDetailsServiceImpl")
     private lateinit var clientDetailsService: ClientDetailsService
 
     @Autowired
@@ -38,7 +39,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter(){
         auth.userDetailsService(userDetailsService).passwordEncoder(this.passwordEncoder)
     }
 
-    @Bean
+    @Bean(name = ["userDetailsService"])
     fun clientDetailsUserService(): UserDetailsService {
         val userDetailsService = ClientDetailsUserDetailsService(this.clientDetailsService)
         userDetailsService.setPasswordEncoder(this.passwordEncoder)
@@ -49,4 +50,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter(){
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }
+
+    @Bean(name = ["passwordEncoder"])
+    fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 }

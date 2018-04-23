@@ -1,13 +1,11 @@
 package com.vaadin.example.api.config.oauth
 
-import com.vaadin.example.domain.oauth.OAuthClientDetailsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
@@ -19,22 +17,18 @@ import org.springframework.security.oauth2.provider.approval.TokenApprovalStore
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory
 import org.springframework.security.oauth2.provider.token.TokenStore
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
-import javax.sql.DataSource
 
 
 @Configuration
 @EnableAuthorizationServer
-class AuthorizationServerConfig @Autowired constructor() : AuthorizationServerConfigurerAdapter() {
+class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
     @Autowired
-    private lateinit var dataSource: DataSource
-
-    @Autowired
-    @Qualifier("oAuthClientDetailsService")
+    @Qualifier("clientDetailsServiceImpl")
     private lateinit var clientDetailsService: ClientDetailsService
 
     @Autowired
+    @Qualifier("tokenStoreImp")
     private lateinit var tokenStore: TokenStore
 
     @Autowired
@@ -58,7 +52,6 @@ class AuthorizationServerConfig @Autowired constructor() : AuthorizationServerCo
         clients.withClientDetails(this.clientDetailsService)
     }
 
-
     @Bean
     fun userApprovalHandler(): UserApprovalHandler {
         val handler = ApprovalStoreUserApprovalHandler()
@@ -73,10 +66,5 @@ class AuthorizationServerConfig @Autowired constructor() : AuthorizationServerCo
         val store = TokenApprovalStore()
         store.setTokenStore(tokenStore)
         return store
-    }
-
-    @Bean
-    fun tokenStore(): TokenStore {
-        return JdbcTokenStore(dataSource)
     }
 }

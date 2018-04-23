@@ -10,6 +10,7 @@ import java.time.LocalDate
 import java.util.*
 
 @Component
+
 class CustomerReader : ItemReader<List<Customer>>, ItemStream {
 
     var interval = 0

@@ -5,7 +5,11 @@ import com.vaadin.example.domain.criteria.CustomerCriteria
 import com.vaadin.example.domain.entity.Customer
 import com.vaadin.example.domain.entity.Customer_
 import com.vaadin.example.domain.enums.CustomerStatus
-import com.vaadin.example.domain.service.CustomerService
+import com.vaadin.example.domain.util.pageable.Direction
+import com.vaadin.example.domain.util.pageable.Order
+import com.vaadin.example.domain.util.pageable.Pageable
+import com.vaadin.example.domain.util.pageable.PageableWrapper
+import com.vaadin.example.feignclient.customer.CustomerService
 import com.vaadin.example.web.constants.WebConstants
 import com.vaadin.example.web.ui.util.Paging
 import com.vaadin.icons.VaadinIcons
@@ -14,15 +18,11 @@ import com.vaadin.shared.data.sort.SortDirection
 import com.vaadin.shared.ui.ValueChangeMode
 import com.vaadin.spring.annotation.SpringComponent
 import com.vaadin.spring.annotation.SpringView
-import com.vaadin.spring.annotation.UIScope
 import com.vaadin.ui.*
 import com.vaadin.ui.renderers.LocalDateRenderer
 import com.vaadin.ui.themes.ValoTheme
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 
 @SpringComponent
 @SpringView(name = "")
@@ -137,9 +137,9 @@ class CustomerList @Autowired constructor(private val service: CustomerService,
     private fun updateList() {
         val customerCriteria = CustomerCriteria(filterText.value, dateBeginBirthday.value, dateEndBirthday.value, customerStatus.value)
         val pageable = getPageable(paging.getPagingInfo().pageIndex)
-        var page = service.findAll(customerCriteria, pageable)
+        var page = service.findAll(PageableWrapper( customerCriteria, pageable))
         if(page.content.isEmpty() && page.totalElements > 0) {
-            page = service.findAll(customerCriteria, getPageable(0))
+            page = service.findAll(PageableWrapper( customerCriteria, getPageable(0)))
         }
         grid.setItems(page.content)
         updatePaging(page)
@@ -156,26 +156,26 @@ class CustomerList @Autowired constructor(private val service: CustomerService,
 
     private fun setItemsForGridByPageIndex(pageIndex: Int) {
         val customerCriteria = CustomerCriteria(filterText.value, dateBeginBirthday.value, dateEndBirthday.value, customerStatus.value)
-        val p = service.findAll(customerCriteria, getPageable(pageIndex))
+        val p = service.findAll(PageableWrapper( customerCriteria, getPageable(pageIndex)))
         grid.setItems(p.content)
     }
 
     private fun getPageable(pageIndex: Int): Pageable {
         val orders = grid.getOrderList()
-        var pageable = PageRequest.of(pageIndex, WebConstants.MAX_PAGE_SIZE, Sort.Direction.DESC, "id")
+        var pageable = Pageable(pageIndex, WebConstants.MAX_PAGE_SIZE, listOf(Order("id", Direction.DESC)))
         if (orders.isNotEmpty()) {
-            pageable = PageRequest.of(pageIndex, WebConstants.MAX_PAGE_SIZE, Sort.by(orders))
+             pageable = Pageable(pageIndex, WebConstants.MAX_PAGE_SIZE, orders)
         }
         return pageable
     }
 
-    fun Grid<Customer>.getOrderList() : MutableList<Sort.Order> {
-        val orders: MutableList<Sort.Order> = mutableListOf()
+    fun Grid<Customer>.getOrderList() : List<Order> {
+        val orders: MutableList<Order> = mutableListOf()
         this.sortOrder.mapTo(orders) { it.getSortOrder() }
         return orders
     }
 
-    private fun GridSortOrder<Customer>.getSortOrder() : Sort.Order {
+    private fun GridSortOrder<Customer>.getSortOrder() : Order {
         val fieldName = when (this.sorted.caption) {
             FIRST_NAME_LABEL -> Customer_.firstName.name
             LAST_NAME_LABEL ->  Customer_.lastName.name
@@ -184,8 +184,8 @@ class CustomerList @Autowired constructor(private val service: CustomerService,
             STATUS_LABEL -> Customer_.status.name
             else -> throw IllegalArgumentException("caption ${this.sorted.caption} is not existed on grid")
         }
-        val direction = if (this.direction == SortDirection.DESCENDING) Sort.Direction.DESC  else Sort.Direction.ASC
-        return Sort.Order(direction, fieldName)
+        val direction = if (this.direction == SortDirection.DESCENDING) Direction.DESC  else Direction.ASC
+        return Order(fieldName, direction)
     }
 }
 
