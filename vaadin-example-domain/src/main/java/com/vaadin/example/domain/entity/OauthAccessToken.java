@@ -7,6 +7,9 @@ import javax.persistence.*;
 public class OauthAccessToken {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "authentication_id")
     private String authenticationId;
 
@@ -83,5 +86,13 @@ public class OauthAccessToken {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -4,13 +4,12 @@ import com.vaadin.data.Binder
 import com.vaadin.data.converter.StringToIntegerConverter
 import com.vaadin.data.validator.StringLengthValidator
 import com.vaadin.example.domain.dto.ClientDto
-import com.vaadin.example.domain.service.ClientService
+import com.vaadin.example.feignclient.client.ClientService
 import com.vaadin.server.Sizeable
 import com.vaadin.spring.annotation.SpringComponent
 import com.vaadin.spring.annotation.UIScope
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
-import org.apache.commons.lang.StringUtils
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.vaadin.ui.NumberField

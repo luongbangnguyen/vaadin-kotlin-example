@@ -1,7 +1,9 @@
 package com.vaadin.example.web.ui.client
 
 import com.vaadin.example.domain.dto.ClientDto
-import com.vaadin.example.domain.service.ClientService
+import com.vaadin.example.domain.util.pageable.Pageable
+import com.vaadin.example.domain.util.pageable.PageableWrapper
+import com.vaadin.example.feignclient.client.ClientService
 import com.vaadin.icons.VaadinIcons
 import com.vaadin.navigator.View
 import com.vaadin.spring.annotation.SpringComponent
@@ -9,7 +11,6 @@ import com.vaadin.spring.annotation.SpringView
 import com.vaadin.ui.*
 import com.vaadin.ui.themes.ValoTheme
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.PageRequest
 
 @SpringComponent
 @SpringView(name = ClientList.NAME)
@@ -66,8 +67,8 @@ class ClientList @Autowired constructor(private val clientService: ClientService
     }
 
     private fun updateDataGridClient() {
-        val pageable = PageRequest.of(0, 10000)
-        val pageClient = this.clientService.findAll("", pageable)
+        val pageable = Pageable(0, 10000)
+        val pageClient = this.clientService.findAll(PageableWrapper<String>("", pageable))
         this.gridClient.setItems(pageClient.content)
     }
 

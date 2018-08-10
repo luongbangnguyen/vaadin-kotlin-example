@@ -19,23 +19,23 @@ public class Customer {
     private Long id;
 
 
-    @Field(type = FieldType.text, analyzer = "autocomplete", searchAnalyzer = "standard", fielddata = true)
+    @Field(type = FieldType.Text, analyzer = "autocomplete", searchAnalyzer = "standard", fielddata = true)
     private String firstName;
 
-    @Field(type = FieldType.text, analyzer = "autocomplete", searchAnalyzer = "standard", fielddata = true)
+    @Field(type = FieldType.Text, analyzer = "autocomplete", searchAnalyzer = "standard", fielddata = true)
     private String lastName;
 
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = SystemConstants.DATE_PATTERN_DEFAULT)
     private LocalDate birthDate;
 
-    @Field(type = FieldType.text, analyzer = "autocomplete", searchAnalyzer = "standard")
+    @Field(type = FieldType.Text, analyzer = "autocomplete", searchAnalyzer = "standard")
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Field(type = FieldType.text, fielddata = true)
+    @Field(type = FieldType.Text, fielddata = true)
     private CustomerStatus status;
 
-    @Field(type = FieldType.text, fielddata = true)
+    @Field(type = FieldType.Text, fielddata = true)
     private String email;
 
     public Long getId() {

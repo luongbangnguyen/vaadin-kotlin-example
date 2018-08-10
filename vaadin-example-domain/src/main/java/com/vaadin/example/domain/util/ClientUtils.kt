@@ -2,6 +2,7 @@ package com.vaadin.example.domain.util
 
 import com.vaadin.example.domain.entity.*
 import com.vaadin.example.domain.util.Constants.CLIENT_RESOURCE
+import org.springframework.security.crypto.password.PasswordEncoder
 
 object ClientUtils {
     fun createScopesDefault(clientId: String): List<Scopes> {
@@ -56,5 +57,13 @@ object ClientUtils {
     fun createRolesDefault(clientId: String): Authority = Authority().apply {
         this.clientId = clientId
         this.role = "ROLE_USER"
+    }
+
+    fun createClientDefault(passwordEncoder: PasswordEncoder): Clients = Clients().apply {
+        this.clientId = "user"
+        this.clientName = "user"
+        this.clientSecret = passwordEncoder.encode("123456")
+        this.accessTokenValidity = 3600
+        this.refreshTokenValidity = 3600
     }
 }
