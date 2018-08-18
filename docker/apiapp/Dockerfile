@@ -1,4 +1,4 @@
-FROM anapsix/alpine-java:8_jdk
+FROM jdkserverlocal
 MAINTAINER luongbangvh@gmail.com
 
 ENV JAR_FILE vaadin-example-api.jar
@@ -8,7 +8,7 @@ ENV SPRING_OUTPUT_ANSI_ENABLED ALWAYS
 
 RUN mkdir -p ${LIB_DIR}
 
-RUN apk --no-cache add netcat-openbsd
+RUN yum install -y nmap dos2unix
 
 COPY ${JAR_FILE} ${LIB_DIR}/${JAR_FILE}
 COPY ${SCRIPT_FILE} ${LIB_DIR}/${SCRIPT_FILE}

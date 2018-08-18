@@ -1,13 +1,12 @@
-FROM alpine
+FROM centos
 MAINTAINER luongbangvh@gmail.com
 
 ENV DIR_ROOT /home/git
 ENV DIR_GIT /srv/project.git
 ENV DIR_BIN /opt/gitserver
 
-RUN adduser -D git
-RUN passwd -u git
-RUN apk add --no-cache openssh git
+RUN adduser git
+RUN yum install -y openssh openssh-server git dos2unix
 
 RUN mkdir -p ${DIR_GIT}
 WORKDIR ${DIR_GIT}
@@ -31,7 +30,7 @@ ADD start.sh ${DIR_BIN}/start.sh
 RUN chmod 700 ${DIR_BIN}/start.sh
 RUN dos2unix ${DIR_BIN}/start.sh
 WORKDIR ${DIR_BIN}
-CMD ["sh", "start.sh"]
+ENTRYPOINT ["./start.sh"]
 
 EXPOSE 2222:22
 EXPOSE 22:22
