@@ -1,5 +1,10 @@
 version: '3'
 services:
+  jdkserver:
+      container_name: jdkserver
+      build: ./javaserver
+      image: jdkserverlocal:latest
+
   gitserver:
     container_name: gitserver
     build: ./gitserver
@@ -17,8 +22,7 @@ services:
 
   elasticsearch:
     container_name: elasticsearch
-    build:
-      context: ./elasticsearch
+    build: ./elasticsearch
     image: elastic-server:latest
     environment:
           - bootstrap.memory_lock=true
@@ -29,6 +33,8 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    depends_on:
+      - jdkserver
     networks:
       backend:
         aliases:
@@ -36,8 +42,7 @@ services:
 
   mysql:
     container_name: mysql
-    build:
-      context: ./mysql
+    build: ./mysql
     image: mysql:latest
     expose:
       - 3306
@@ -50,9 +55,10 @@ services:
 
   configserver:
     container_name: configserver
-    build:
-      context: ./configserver
+    build: ./configserver
     image: configserver:latest
+    depends_on:
+      - jdkserver
     environment:
       SPRING_CLOUD_CONFIG_SERVER_GIT_URI: git@gitserver:/srv/project.git
     expose:
@@ -66,8 +72,7 @@ services:
 
   eurekaserver:
     container_name: eurekaserver
-    build:
-      context: ./eurekaserver
+    build: ./eurekaserver
     image: eurekaserver:latest
     expose:
       - 8761
@@ -80,8 +85,7 @@ services:
 
   serviceserver:
     container_name: serviceserver
-    build:
-      context: ./serviceserver
+    build: ./serviceserver
     image: serviceserver:latest
     environment:
           SPRING_CLOUD_CONFIG_URI: http://configserver:8888
@@ -116,8 +120,7 @@ services:
 
   apiapp:
       container_name: apiapp
-      build:
-        context: ./apiapp
+      build: ./apiapp
       image: vaadin-example-api:latest
       environment:
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka
