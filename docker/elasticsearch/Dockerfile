@@ -2,13 +2,15 @@ FROM jdkserverlocal
 MAINTAINER luongbangvh@gmail.com
 
 ENV DIR_ROOT /home/elastic/elasticsearch
-ENV DIR_ELASTIC /home/elastic/elasticsearch/elasticsearch-5.5.2
-ENV SOURCE_ELASTIC elasticsearch-5.5.2.tar.gz
+ENV ELASTIC_VERSION elasticsearch-6.4.0
+ENV DIR_ELASTIC /home/elastic/elasticsearch/${ELASTIC_VERSION}
 
 RUN adduser elastic
-ADD ${SOURCE_ELASTIC} ${DIR_ROOT}
-ADD elasticsearch.yml ${DIR_ELASTIC}/config/elasticsearch.yml
 
+WORKDIR ${DIR_ROOT}
+RUN wget -O ${ELASTIC_VERSION}.tar.gz https://artifacts.elastic.co/downloads/elasticsearch/${ELASTIC_VERSION}.tar.gz
+RUN tar -xvf ${ELASTIC_VERSION}.tar.gz
+ADD elasticsearch.yml ${DIR_ELASTIC}/config/elasticsearch.yml
 RUN chown -R elastic:elastic ${DIR_ROOT}
 
 USER elastic
