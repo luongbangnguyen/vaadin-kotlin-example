@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configserver
+spec:
+  selector:
+    matchLabels:
+      name: configserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: configserver
+        tier: backend
+    spec:
+       containers:
+        - name: configserver
+          imagePullPolicy: Never
+          image: configserver:latest
+          ports:
+           - containerPort: 8888
+          env:
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              value: git@gitserver:/srv/project.git

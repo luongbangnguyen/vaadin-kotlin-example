@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eurekaserver
+spec:
+  selector:
+    matchLabels:
+      name: eurekaserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: eurekaserver
+        tier: backend
+    spec:
+       containers:
+        - name: eurekaserver
+          imagePullPolicy: Never
+          image: eurekaserver:latest
+          ports:
+           - containerPort: 8761
+          env:
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: eurekaserver

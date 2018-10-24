@@ -1,4 +1,4 @@
-FROM centos
+FROM ubuntu
 MAINTAINER luongbangvh@gmail.com
 
 ENV DIR_ROOT /home/git
@@ -6,7 +6,8 @@ ENV DIR_GIT /srv/project.git
 ENV DIR_BIN /opt/gitserver
 
 RUN adduser git
-RUN yum install -y openssh openssh-server git dos2unix
+RUN apt-get update
+RUN apt-get install -y openssh-server git dos2unix
 
 RUN mkdir -p ${DIR_GIT}
 WORKDIR ${DIR_GIT}

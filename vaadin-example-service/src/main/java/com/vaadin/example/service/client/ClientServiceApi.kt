@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*
 class ClientServiceApi @Autowired constructor(private val clientService: ClientService){
 
     @PostMapping("createOrUpdate")
-    fun createOrUpdate(@RequestBody clientDto: ClientDto) {
-        this.clientService.createOrUpdate(clientDto)
-    }
+    fun createOrUpdate(@RequestBody clientDto: ClientDto) = this.clientService.createOrUpdate(clientDto)
 
     @PostMapping("findAll")
     fun findAll(@RequestBody pageableWrapper: PageableWrapper<String>) : Page<ClientDto> {
@@ -30,7 +28,5 @@ class ClientServiceApi @Autowired constructor(private val clientService: ClientS
     }
 
     @GetMapping("findByClientId/{id}")
-    fun findByClientId(@PathVariable id: String) : ClientDto {
-        return this.clientService.findByClientId(id)
-    }
+    fun findByClientId(@PathVariable id: String) : ClientDto = this.clientService.findByClientId(id)
 }

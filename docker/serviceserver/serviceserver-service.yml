@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: serviceserver
+  labels:
+    name: serviceserver
+spec:
+  ports:
+    - port: 8881
+      name: http-port
+  selector:
+    name: serviceserver
+    tier: backend

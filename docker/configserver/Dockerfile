@@ -1,4 +1,4 @@
-FROM jdkserverlocal
+FROM jdkserver
 MAINTAINER luongbangvh@gmail.com
 
 # Define some directories
@@ -6,14 +6,15 @@ ENV DIR_ROOT /home/config
 ENV DIR_CONFIG /opt/config-server
 
 # Install necessary software
-RUN yum install -y nmap git openssh dos2unix
+Run apt-get update
+RUN apt-get install -y netcat git openssh-client dos2unix
 
 # add necessary assets to server
 ADD environment.properties ${DIR_CONFIG}/environment.properties
 
 ADD config-server.jar ${DIR_CONFIG}/config-server.jar
 ADD start-server.sh ${DIR_CONFIG}/start-server.sh
-RUN yum install -y dos2unix
+RUN apt-get install -y dos2unix
 RUN dos2unix ${DIR_CONFIG}/start-server.sh
 
 RUN adduser config
