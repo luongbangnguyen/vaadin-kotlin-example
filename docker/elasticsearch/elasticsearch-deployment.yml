@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+spec:
+  selector:
+    matchLabels:
+      name: elasticsearch
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: elasticsearch
+        tier: backend
+    spec:
+       containers:
+        - name: elasticsearch
+          imagePullPolicy: Never
+          image: elasticsearch:latest
+          ports:
+           - containerPort: 9200
+           - containerPort: 9300
+          env:
+           - name: bootstrap.memory_lock
+             value: "true"
+           - name: ES_JAVA_OPTS
+             value: -Xms512m -Xmx512m

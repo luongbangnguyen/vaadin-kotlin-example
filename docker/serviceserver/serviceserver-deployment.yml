@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serviceserver
+  labels:
+    name: serviceserver
+spec:
+  selector:
+    matchLabels:
+      name: serviceserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: serviceserver
+        tier: backend
+    spec:
+       hostname: serviceserver
+       containers:
+        - name: serviceserver
+          imagePullPolicy: Never
+          image: serviceserver:latest
+          ports:
+           - containerPort: 8881
+          env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://configserver:8888
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eurekaserver:8761/eureka
+

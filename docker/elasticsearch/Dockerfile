@@ -1,4 +1,4 @@
-FROM jdkserverlocal
+FROM jdkserver
 MAINTAINER luongbangvh@gmail.com
 
 ENV DIR_ROOT /home/elastic/elasticsearch

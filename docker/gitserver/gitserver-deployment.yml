@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitserver
+spec:
+  selector:
+    matchLabels:
+      name: gitserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: gitserver
+        tier: backend
+    spec:
+       containers:
+        - name: gitserver
+          imagePullPolicy: Never
+          image: gitserver:latest
+          ports:
+            - name: ssh
+              containerPort: 22
+            - name: ftps
+              containerPort: 2222
+

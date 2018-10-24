@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaadin-example-api
+  labels:
+    name: vaadin-example-api
+spec:
+  ports:
+    - port: 8181
+      name: http-port
+  selector:
+    name: vaadin-example-api
+    tier: frontend
+  type: LoadBalancer

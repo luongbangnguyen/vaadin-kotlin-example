@@ -1,4 +1,4 @@
-FROM jdkserverlocal
+FROM jdkserver
 MAINTAINER luongbangvh@gmail.com
 
 ENV WEB_FILE vaadin-example-eureka.jar
@@ -8,7 +8,8 @@ ENV SPRING_OUTPUT_ANSI_ENABLED ALWAYS
 
 RUN mkdir -p ${LIB_DIR}
 
-RUN yum install -y nmap dos2unix
+RUN apt-get update
+RUN apt-get install -y dos2unix
 
 COPY ${WEB_FILE} ${LIB_DIR}/${WEB_FILE}
 COPY ${SCRIPT_FILE} ${LIB_DIR}/${SCRIPT_FILE}

@@ -10,6 +10,6 @@ class BeansConfiguration {
 
     @Bean("passwordEncoder")
     fun passwordEncoder(): PasswordEncoder {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder()
     }
 }

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaadin-example-api
+  labels:
+    name: vaadin-example-api
+spec:
+  selector:
+    matchLabels:
+      name: vaadin-example-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: vaadin-example-api
+        tier: frontend
+    spec:
+       hostname: vaadin-example-api
+       containers:
+        - name: vaadin-example-api
+          imagePullPolicy: Never
+          image: vaadin-example-api:latest
+          ports:
+           - containerPort: 8181
+          env:
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://eurekaserver:8761/eureka
