@@ -1,4 +1,4 @@
-# vaadin-kootlin-example
+# vaadin-kotlin-example
 ```
 mvn install
 cd docker
