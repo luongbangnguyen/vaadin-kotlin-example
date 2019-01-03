@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 @Configuration
 @EnableResourceServer
-class ResourceServerConfig : ResourceServerConfigurerAdapter() {
+open class ResourceServerConfig : ResourceServerConfigurerAdapter() {
     override fun configure(resources: ResourceServerSecurityConfigurer) {
         resources.resourceId(CLIENT_RESOURCE).stateless(false)
     }

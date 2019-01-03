@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan(basePackages = ["com.vaadin.example"])
-class VaadinProjectExampleApplication
+open class VaadinProjectExampleApplication
 
 fun main(args: Array<String>) {
     SpringApplication.run(VaadinProjectExampleApplication::class.java, *args)

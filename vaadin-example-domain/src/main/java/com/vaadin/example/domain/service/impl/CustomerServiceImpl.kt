@@ -16,7 +16,7 @@ import kotlin.concurrent.thread
 
 @Service
 @Transactional
-class CustomerServiceImpl @Autowired constructor(
+open class CustomerServiceImpl @Autowired constructor(
         private val customerRepository: CustomerJpaRepository,
         private val customerElasticRepository: CustomerElasticRepository
 ) : CustomerService {

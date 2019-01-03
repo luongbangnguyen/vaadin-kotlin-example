@@ -18,7 +18,7 @@ import org.springframework.security.oauth2.provider.client.ClientDetailsUserDeta
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig : WebSecurityConfigurerAdapter(){
+open class WebSecurityConfig : WebSecurityConfigurerAdapter(){
 
     @Autowired
     @Qualifier("passwordEncoder")
@@ -40,7 +40,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter(){
     }
 
     @Bean(name = ["userDetailsService"])
-    fun clientDetailsUserService(): UserDetailsService {
+    open fun clientDetailsUserService(): UserDetailsService {
         val userDetailsService = ClientDetailsUserDetailsService(this.clientDetailsService)
         userDetailsService.setPasswordEncoder(this.passwordEncoder)
         return userDetailsService
@@ -52,5 +52,5 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter(){
     }
 
     @Bean(name = ["passwordEncoder"])
-    fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    open fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 }

@@ -21,14 +21,14 @@ import org.springframework.context.annotation.DependsOn
 @Configuration
 @EnableBatchProcessing
 @DependsOn("initialConfiguration")
-class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: JobBuilderFactory,
+open class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: JobBuilderFactory,
                                                 private val stepBuilderFactory: StepBuilderFactory,
                                                 private val clientReader: ClientReader,
                                                 private val clientWriter: ClientWriter,
                                                 private val customerReader: CustomerReader,
                                                 private val customerWriter: CustomerWriter) {
     @Bean
-    fun initClientJob() : Job  = this.jobBuilderFactory
+    open fun initClientJob() : Job  = this.jobBuilderFactory
             .get("initClientJob")
             .incrementer(RunIdIncrementer())
             .flow(clientStep())
@@ -37,7 +37,7 @@ class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: J
 
 
     @Bean
-    fun clientStep(): TaskletStep = this.stepBuilderFactory
+    open fun clientStep(): TaskletStep = this.stepBuilderFactory
             .get("clientStep")
             .chunk<Clients, Clients>(1)
             .reader(this.clientReader)
@@ -45,7 +45,7 @@ class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: J
             .build()
 
     @Bean
-    fun initCustomerJob() : Job  = this.jobBuilderFactory
+    open fun initCustomerJob() : Job  = this.jobBuilderFactory
             .get("initCustomerJob")
             .incrementer(RunIdIncrementer())
             .flow(customerStep())
@@ -54,7 +54,7 @@ class BatchConfiguration @Autowired constructor(private val jobBuilderFactory: J
 
 
     @Bean
-    fun customerStep(): Step = this.stepBuilderFactory
+    open fun customerStep(): Step = this.stepBuilderFactory
             .get("customerStep")
             .chunk<List<Customer>, List<Customer>>(1)
             .reader(this.customerReader)

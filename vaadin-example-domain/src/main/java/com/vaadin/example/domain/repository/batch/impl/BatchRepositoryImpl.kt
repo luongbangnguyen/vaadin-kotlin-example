@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import javax.sql.DataSource
 
 @Repository
-class BatchRepositoryImpl @Autowired constructor(private val dataSource: DataSource) : BatchRepository {
+open class BatchRepositoryImpl @Autowired constructor(private val dataSource: DataSource) : BatchRepository {
     companion object {
         private const val SCHEMA_BATCH_FILE = "/mysql/schema-batch.sql"
     }
