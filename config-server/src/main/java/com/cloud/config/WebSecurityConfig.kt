@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
  */
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Value("\${application.username}")
     private lateinit var username: String
 

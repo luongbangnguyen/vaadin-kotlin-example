@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
 
 @Configuration
-class ElasticsearchTemplateConfiguration {
+open class ElasticsearchTemplateConfiguration {
     @Bean
-    fun elasticsearchTemplate(client: Client): ElasticsearchTemplate {
+    open fun elasticsearchTemplate(client: Client): ElasticsearchTemplate {
         return ElasticsearchTemplate(client, CustomEntityMapper())
     }
 }

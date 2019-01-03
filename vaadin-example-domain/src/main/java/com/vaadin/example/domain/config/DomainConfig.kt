@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @EnableJpaRepositories(basePackages = ["com.vaadin.example.domain.repository.jpa"])
 @EnableElasticsearchRepositories(basePackages = ["com.vaadin.example.domain.repository.elastic"])
 @EntityScan("com.vaadin.example.domain.entity")
-class DomainConfig {
+open class DomainConfig {
 
     @Bean(name = ["passwordEncoder"])
-    fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    open fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 }

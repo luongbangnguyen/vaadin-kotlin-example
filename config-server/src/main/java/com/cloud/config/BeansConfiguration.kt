@@ -6,10 +6,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
-class BeansConfiguration {
+open class BeansConfiguration {
 
     @Bean("passwordEncoder")
-    fun passwordEncoder(): PasswordEncoder {
+    open fun passwordEncoder(): PasswordEncoder {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder()
     }
 }

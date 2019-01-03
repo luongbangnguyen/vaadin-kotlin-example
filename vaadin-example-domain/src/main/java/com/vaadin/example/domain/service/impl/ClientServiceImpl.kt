@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class ClientServiceImpl : ClientService {
+open class ClientServiceImpl : ClientService {
     @Autowired
     private lateinit var clientRepository: ClientsRepository
 

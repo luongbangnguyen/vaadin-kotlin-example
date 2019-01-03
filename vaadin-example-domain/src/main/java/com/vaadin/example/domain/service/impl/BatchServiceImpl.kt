@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class BatchServiceImpl @Autowired constructor(private val batchRepository: BatchRepository) : BatchService {
+open class BatchServiceImpl @Autowired constructor(private val batchRepository: BatchRepository) : BatchService {
 
     override fun initialBatchSchema() {
         this.batchRepository.createBatchTables()

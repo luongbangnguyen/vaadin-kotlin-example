@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore
 
 @Configuration
 @EnableAuthorizationServer
-class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
+open class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
     @Autowired
     @Qualifier("clientDetailsServiceImpl")
@@ -53,7 +53,7 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
     }
 
     @Bean
-    fun userApprovalHandler(): UserApprovalHandler {
+    open fun userApprovalHandler(): UserApprovalHandler {
         val handler = ApprovalStoreUserApprovalHandler()
         handler.setApprovalStore(approvalStore)
         handler.setRequestFactory(DefaultOAuth2RequestFactory(clientDetailsService))
@@ -62,7 +62,7 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
     }
 
     @Bean
-    fun approvalStore(): ApprovalStore {
+    open fun approvalStore(): ApprovalStore {
         val store = TokenApprovalStore()
         store.setTokenStore(tokenStore)
         return store

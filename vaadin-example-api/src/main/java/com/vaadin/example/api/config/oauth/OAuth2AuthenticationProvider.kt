@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.provider.OAuth2Authentication
 
 @Configuration
-class OAuth2AuthenticationProvider : AuthenticationProvider {
+open class OAuth2AuthenticationProvider : AuthenticationProvider {
     override fun authenticate(p0: Authentication): Authentication {
         return p0
     }

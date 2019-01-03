@@ -15,15 +15,15 @@ import org.springframework.core.env.ConfigurableEnvironment
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = ["com.vaadin.example.feignclient"])
 @Configuration
-class FeignClientConfiguration
+open class FeignClientConfiguration
 {
     @Bean
-    fun pageJacksonModule(): Module {
+    open fun pageJacksonModule(): Module {
         return PageJacksonModule()
     }
 
     @Bean
-    fun requestOptions(env: ConfigurableEnvironment): Request.Options {
+    open fun requestOptions(env: ConfigurableEnvironment): Request.Options {
         val ribbonReadTimeout = env.getProperty("ribbon.ReadTimeout", Int::class.javaPrimitiveType!!, 70000)
         val ribbonConnectionTimeout = env.getProperty("ribbon.ConnectTimeout", Int::class.javaPrimitiveType!!, 60000)
 
