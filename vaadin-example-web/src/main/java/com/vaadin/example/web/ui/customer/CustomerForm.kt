@@ -19,8 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @SpringComponent
 @UIScope
-class CustomerForm @Autowired constructor(private val customerService: CustomerService,
-                                          val errorMessage: ErrorMessage)  : VerticalLayout() {
+class CustomerForm @Autowired constructor(
+        private val customerService: CustomerService,
+        val errorMessage: ErrorMessage) : VerticalLayout() {
 
     private final val form = FormLayout().apply { setSizeUndefined() }
     private final val firstName = TextField("First Name").apply {setWidth(400f, Sizeable.Unit.PIXELS)}
@@ -44,7 +45,7 @@ class CustomerForm @Autowired constructor(private val customerService: CustomerS
         status.setItems(CustomerStatus.values().toList())
 
         save.styleName = ValoTheme.BUTTON_PRIMARY
-        save.addClickListener({ this.save() })
+        save.addClickListener{ this.save() }
 
         delete.addClickListener { this.delete() }
 

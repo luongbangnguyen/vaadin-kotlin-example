@@ -1,12 +1,11 @@
 package com.vaadin.example.service.client
 
 import com.vaadin.example.domain.dto.ClientDto
-import com.vaadin.example.domain.service.ClientService
+import com.vaadin.example.domain.service.client.ClientService
 import com.vaadin.example.domain.util.pageable.PageJacksonModule
 import com.vaadin.example.domain.util.pageable.PageableWrapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
 @RestController
