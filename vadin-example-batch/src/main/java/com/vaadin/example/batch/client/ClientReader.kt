@@ -1,7 +1,7 @@
 package com.vaadin.example.batch.client
 
 import com.vaadin.example.domain.entity.Clients
-import com.vaadin.example.domain.repository.jpa.ClientsRepository
+import com.vaadin.example.domain.repository.jpa.client.ClientsRepository
 import com.vaadin.example.domain.util.ClientUtils
 import org.springframework.batch.item.ExecutionContext
 import org.springframework.batch.item.ItemReader

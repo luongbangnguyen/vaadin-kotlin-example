@@ -1,7 +1,8 @@
 package com.vaadin.example.batch.client
 
 import com.vaadin.example.domain.entity.Clients
-import com.vaadin.example.domain.repository.jpa.*
+import com.vaadin.example.domain.repository.jpa.oauth.*
+import com.vaadin.example.domain.repository.jpa.client.ClientsRepository
 import com.vaadin.example.domain.util.ClientUtils
 import org.springframework.batch.item.ItemWriter
 import org.springframework.beans.factory.annotation.Autowired
