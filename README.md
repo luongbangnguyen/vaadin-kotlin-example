@@ -1,8 +1,3 @@
 # vaadin-kotlin-example
-```
-mvn install
-cd docker
-docker-compose up --build
-```
-access to localhost:8080
+The project example kotlin, spring boot, spring cloud, elasticsearch, vaadin, OAuth2
 
